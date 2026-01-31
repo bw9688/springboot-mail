@@ -6,13 +6,11 @@ import com.fion.springbootmall.rowmapper.ProductRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -42,7 +40,5 @@ public class ProductDaoImpl implements ProductDao {
             return null;
         }
     }
-
-
 
 }
