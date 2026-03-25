@@ -13,10 +13,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
@@ -72,4 +69,24 @@ public class ProductDaoImpl implements ProductDao {
         return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
+    @Override
+    public void updateProduct(Integer productId, ProductRequest productRequest) {
+        String sql = "UPDATE mall.product SET product_name=:productName, category=:category, image_url=:imageUrl, " +
+                "price=:price, stock=:stock, description=:description, last_modified_date=:lastModifiedDate " +
+                "WHERE product_id=:productId ";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("productId",productId);
+
+        map.put("productName", productRequest.getProductName());
+        map.put("category", productRequest.getCategory().name());
+        map.put("imageUrl", productRequest.getImageUrl());
+        map.put("price", productRequest.getPrice());
+        map.put("stock", productRequest.getStock());
+        map.put("description", productRequest.getDescription());
+
+        map.put("lastModifiedDate", LocalDateTime.now());
+
+        namedParameterJdbcTemplate.update(sql,map);
+    }
 }
