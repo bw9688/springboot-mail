@@ -54,4 +54,10 @@ public class ProductController implements BaseController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiRes.success(updatedProduct));
     }
 
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<ApiRes<Product>> deleteProduct(@PathVariable Integer productId){
+        productService.deleteProductById(productId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

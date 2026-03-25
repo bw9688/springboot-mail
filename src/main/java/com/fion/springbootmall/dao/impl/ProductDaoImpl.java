@@ -4,8 +4,7 @@ import com.fion.springbootmall.dao.ProductDao;
 import com.fion.springbootmall.dto.ProductRequest;
 import com.fion.springbootmall.model.Product;
 import com.fion.springbootmall.rowmapper.ProductRowMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -15,10 +14,10 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Repository
 public class ProductDaoImpl implements ProductDao {
 
-    private static final Logger log = LoggerFactory.getLogger(ProductDaoImpl.class);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public ProductDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -86,6 +85,16 @@ public class ProductDaoImpl implements ProductDao {
         map.put("description", productRequest.getDescription());
 
         map.put("lastModifiedDate", LocalDateTime.now());
+
+        namedParameterJdbcTemplate.update(sql,map);
+    }
+
+    @Override
+    public void deleteProductById(Integer productId) {
+        String sql = "DELETE FROM mall.product WHERE product_id = :productId ";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("productId",productId);
 
         namedParameterJdbcTemplate.update(sql,map);
     }
